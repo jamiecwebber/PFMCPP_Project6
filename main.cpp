@@ -100,7 +100,7 @@ struct U
             /*
              write something that makes the distance between this->float2 and this->float1 get smaller
              */
-            this->float2 += 0.01;
+            this->float2 += 0.01f;
         }
         std::cout << "U's float2 updated value: " << this->float2 << std::endl;
         return this->float2 * this->float1;
@@ -119,7 +119,7 @@ struct Struct2
             /*
              write something that makes the distance between that->float2 and that->float1 get smaller
              */
-            that->float2 += 0.01;
+            that->float2 += 0.01f;
         }
         std::cout << "U's float2 updated value: " << that->float2 << std::endl;
         return that->float2 * that->float1;
