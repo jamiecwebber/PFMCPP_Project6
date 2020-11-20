@@ -77,12 +77,15 @@ struct T
     std::string name;
 };
 
-struct struct1                                //4
+struct Struct1                                //4
 {
     T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if (a != nullptr && b != nullptr)
+        {
+            if( a->value < b->value ) return a;
+            if( a->value > b->value ) return b;
+        }
         return nullptr;
     }
 };
@@ -92,17 +95,20 @@ struct U
     float float1 { 0 }, float2 { 0 };
     float memberFunc(float* updatedValue)      //12
     {
-        std::cout << "U's float1 value: " << this->float1 << std::endl;
-        this->float1 = *updatedValue;
-        std::cout << "U's float1 updated value: " << this->float1 << std::endl;
-        while( std::abs(this->float2 - this->float1) > 0.001f )
+        if ( updatedValue != nullptr )
         {
-            /*
-             write something that makes the distance between this->float2 and this->float1 get smaller
-             */
-            this->float2 += 0.01f;
+            std::cout << "U's float1 value: " << this->float1 << std::endl;
+            this->float1 = *updatedValue;
+            std::cout << "U's float1 updated value: " << this->float1 << std::endl;
+            while( std::abs(this->float2 - this->float1) > 0.001f )
+            {
+                /*
+                write something that makes the distance between this->float2 and this->float1 get smaller
+                */
+                this->float2 += 0.01f;
+            }
+            std::cout << "U's float2 updated value: " << this->float2 << std::endl;
         }
-        std::cout << "U's float2 updated value: " << this->float2 << std::endl;
         return this->float2 * this->float1;
     }
 };
@@ -111,28 +117,32 @@ struct Struct2
 {
     static float staticFunc(U* that, float* updatedValue )        //10
     {
-        std::cout << "U's float1 value: " << that->float1 << std::endl;
-        that->float1 = *updatedValue;
-        std::cout << "U's float1 updated value: " << that->float1 << std::endl;
-        while( std::abs(that->float2 - that->float1) > 0.001f )
+        if (that != nullptr && updatedValue != nullptr)
         {
-            /*
-             write something that makes the distance between that->float2 and that->float1 get smaller
-             */
-            that->float2 += 0.01f;
+            std::cout << "U's float1 value: " << that->float1 << std::endl;
+            that->float1 = *updatedValue;
+            std::cout << "U's float1 updated value: " << that->float1 << std::endl;
+            while( std::abs(that->float2 - that->float1) > 0.001f )
+            {
+                /*
+                write something that makes the distance between that->float2 and that->float1 get smaller
+                */
+                that->float2 += 0.01f;
+            }
+            std::cout << "U's float2 updated value: " << that->float2 << std::endl;
+            return that->float2 * that->float1;
         }
-        std::cout << "U's float2 updated value: " << that->float2 << std::endl;
-        return that->float2 * that->float1;
+        return 0; // what should this return if that is nullptr?
     }
 };
         
 int main()
 {
-    T T1( 8, "T1" );                                             //6
-    T T2( 13, "T2" );                                             //6
+    T t1( 8, "t1" );                                             //6
+    T t2( 13, "t2" );                                             //6
     
-    struct1 f;                                            //7
-    auto* smaller = f.compare( &T1, &T2);                              //8
+    Struct1 f;                                            //7
+    auto* smaller = f.compare( &t1, &t2);                              //8
     if (smaller != nullptr)
     {
         std::cout << "the smaller one is << " << smaller->name << std::endl; //9
