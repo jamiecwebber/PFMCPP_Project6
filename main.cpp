@@ -50,46 +50,39 @@ struct Struct1                                //4
 struct U
 {
     float float1 { 0 }, float2 { 0 };
-    float memberFunc(float* updatedValue)      //12
+    float memberFunc(const float& updatedValue)      //12
     {
-        if ( updatedValue != nullptr )
+        std::cout << "U's float1 value: " << this->float1 << std::endl;
+        this->float1 = updatedValue;
+        std::cout << "U's float1 updated value: " << this->float1 << std::endl;
+        while( std::abs(this->float2 - this->float1) > 0.001f )
         {
-            std::cout << "U's float1 value: " << this->float1 << std::endl;
-            this->float1 = *updatedValue;
-            std::cout << "U's float1 updated value: " << this->float1 << std::endl;
-            while( std::abs(this->float2 - this->float1) > 0.001f )
-            {
-                /*
-                write something that makes the distance between this->float2 and this->float1 get smaller
-                */
-                this->float2 += 0.01f;
-            }
-            std::cout << "U's float2 updated value: " << this->float2 << std::endl;
+            /*
+            write something that makes the distance between this->float2 and this->float1 get smaller
+            */
+            this->float2 += 0.01f;
         }
+        std::cout << "U's float2 updated value: " << this->float2 << std::endl;
         return this->float2 * this->float1;
     }
 };
 
 struct Struct2
 {
-    static float staticFunc(U& that, float& updatedValue )        //10
+    static float staticFunc(U& that, const float& updatedValue )        //10
     {
-        // if (that != nullptr && updatedValue != nullptr)
-        // {
-            std::cout << "U's float1 value: " << that.float1 << std::endl;
-            that.float1 = updatedValue;
-            std::cout << "U's float1 updated value: " << that.float1 << std::endl;
-            while( std::abs(that.float2 - that.float1) > 0.001f )
-            {
-                /*
-                write something that makes the distance between that->float2 and that->float1 get smaller
-                */
-                that.float2 += 0.01f;
-            }
-            std::cout << "U's float2 updated value: " << that.float2 << std::endl;
-            return that.float2 * that.float1;
-        // }
-        // return 0; // what should this return if that is nullptr?
+        std::cout << "U's float1 value: " << that.float1 << std::endl;
+        that.float1 = updatedValue;
+        std::cout << "U's float1 updated value: " << that.float1 << std::endl;
+        while( std::abs(that.float2 - that.float1) > 0.001f )
+        {
+            /*
+            write something that makes the distance between that->float2 and that->float1 get smaller
+            */
+            that.float2 += 0.01f;
+        }
+        std::cout << "U's float2 updated value: " << that.float2 << std::endl;
+        return that.float2 * that.float1;
     }
 };
         
@@ -106,11 +99,11 @@ int main()
     }
 
     U u1; 
-    float updatedValue = 5.f;
+    const float updatedValue = 5.f;
     std::cout << "[static func] u1's multiplied values: " << Struct2::staticFunc( u1, updatedValue) << std::endl;                  //11
     
     U u2;
-    std::cout << "[member func] u2's multiplied values: " << u2.memberFunc( &updatedValue ) << std::endl;
+    std::cout << "[member func] u2's multiplied values: " << u2.memberFunc( updatedValue ) << std::endl;
 }
 
         
