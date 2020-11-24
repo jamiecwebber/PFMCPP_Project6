@@ -72,24 +72,24 @@ struct U
 
 struct Struct2
 {
-    static float staticFunc(U* that, float* updatedValue )        //10
+    static float staticFunc(U& that, float& updatedValue )        //10
     {
-        if (that != nullptr && updatedValue != nullptr)
-        {
-            std::cout << "U's float1 value: " << that->float1 << std::endl;
-            that->float1 = *updatedValue;
-            std::cout << "U's float1 updated value: " << that->float1 << std::endl;
-            while( std::abs(that->float2 - that->float1) > 0.001f )
+        // if (that != nullptr && updatedValue != nullptr)
+        // {
+            std::cout << "U's float1 value: " << that.float1 << std::endl;
+            that.float1 = updatedValue;
+            std::cout << "U's float1 updated value: " << that.float1 << std::endl;
+            while( std::abs(that.float2 - that.float1) > 0.001f )
             {
                 /*
                 write something that makes the distance between that->float2 and that->float1 get smaller
                 */
-                that->float2 += 0.01f;
+                that.float2 += 0.01f;
             }
-            std::cout << "U's float2 updated value: " << that->float2 << std::endl;
-            return that->float2 * that->float1;
-        }
-        return 0; // what should this return if that is nullptr?
+            std::cout << "U's float2 updated value: " << that.float2 << std::endl;
+            return that.float2 * that.float1;
+        // }
+        // return 0; // what should this return if that is nullptr?
     }
 };
         
@@ -105,12 +105,12 @@ int main()
         std::cout << "the smaller one is << " << smaller->name << std::endl; //9
     }
 
-    U U1; FIXME variable names need to begin with a lowercase letter
+    U u1; 
     float updatedValue = 5.f;
-    std::cout << "[static func] U1's multiplied values: " << Struct2::staticFunc( &U1, &updatedValue) << std::endl;                  //11
+    std::cout << "[static func] u1's multiplied values: " << Struct2::staticFunc( u1, updatedValue) << std::endl;                  //11
     
-    U U2; FIXME variable names need to begin with a lowercase letter
-    std::cout << "[member func] U2's multiplied values: " << U2.memberFunc( &updatedValue ) << std::endl;
+    U u2;
+    std::cout << "[member func] u2's multiplied values: " << u2.memberFunc( &updatedValue ) << std::endl;
 }
 
         
