@@ -36,13 +36,10 @@ struct T
 
 struct Struct1                                //4
 {
-    T* compare(T* a, T* b) //5
+    T* compare(T& a, T& b) //5
     {
-        if (a != nullptr && b != nullptr)
-        {
-            if( a->value < b->value ) return a;
-            if( a->value > b->value ) return b;
-        }
+        if( a.value < b.value ) return &a;
+        if( a.value > b.value ) return &b;
         return nullptr;
     }
 };
@@ -92,7 +89,7 @@ int main()
     T t2( 13, "t2" );                                             //6
     
     Struct1 f;                                            //7
-    auto* smaller = f.compare( &t1, &t2);                              //8
+    auto* smaller = f.compare( t1, t2);                              //8
     if (smaller != nullptr)
     {
         std::cout << "the smaller one is << " << smaller->name << std::endl; //9
